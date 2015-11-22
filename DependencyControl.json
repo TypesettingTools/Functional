@@ -18,7 +18,7 @@
     "coffeeflux-scripts": "https://raw.githubusercontent.com/TypesettingTools/CoffeeFlux-Aegisub-Scripts/master/DependencyControl.json"
   },
   "modules": {
-    "l0.DependencyControl": {
+    "l0.Functional": {
       "url": "@{baseUrl}#@{namespace}",
       "author": "line0",
       "name": "(Almost) Functional Suite",
