@@ -534,7 +534,7 @@ _function = {
   true: -> true
 }
 
-util = {
+_util = {
   equals: DependencyControl.UnitTestSuite.UnitTest.equals
   itemsEqual: DependencyControl.UnitTestSuite.UnitTest.itemsEqual
 }
@@ -611,11 +611,11 @@ return version\register {
   function: _function
   :list
   List: list
-  string: _string
-  math: _math
-  table: _table
-  :util
+  string: _table.union string, _string
+  math: _table.union math, _math
+  table: _table.union table, _table
+  util: _table.union util, _util
   :version
-  re: _re
-  unicode: _unicode
+  re: _table.union re, _re
+  unicode: _table.union unicode, _unicode
 }
