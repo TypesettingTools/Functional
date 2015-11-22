@@ -7,12 +7,12 @@ version = DependencyControl{
     moduleName: "l0.Functional",
     url: "https://github.com/TypesettingTools/Functional",
     feed: "https://raw.githubusercontent.com/TypesettingTools/Functional/master/DependencyControl.json",
-    {"aegisub.util", "aegisub.unicode"},
+    {"aegisub.util", "aegisub.unicode", "aegisub.re"},
 }
-util, unicode = version\requireModules!
+util, unicode, re = version\requireModules!
 logger = version\getLogger!
 
-local list, _table, _math, _string, _function
+local list, _table, _math, _string, _function, _unicode, _re
 
 listMeta = {
   __index: (tbl, key) -> list[key] or nil
@@ -520,6 +520,74 @@ util = {
   itemsEqual: DependencyControl.UnitTestSuite.UnitTest.itemsEqual
 }
 
+_unicode = {
+  toCharTable: (s) ->
+    charNum, charStart, uniChars = 1, 1, {}
+    while charStart <= #s
+        charEnd = charStart - 1 + unicode.charwidth s\sub charStart, charStart
+        uniChars[charNum] = s\sub charStart, charEnd
+        charStart, charNum = charEnd+1, charNum+1
+
+    return uniChars
+}
+
+_re = {
+  matches: (str, pattern, ...) ->
+    regex = re.compile pattern, ...
+    chars = unicode.toCharTable str
+    charCnt, last = #chars, 0
+    ->
+        return if last >= charCnt
+        matches = regex\match table.concat chars, "", last+1, charCnt
+        matchCnt = #matches
+        return unless matches
+        last += matches[1].last
+        start = matchCnt == 1 and 1 or 2
+        unpack [matches[i].str for i = start, matchCnt]
+
+  replace: (str, pattern, callback, ...) ->
+    regex = re.compile pattern, ...
+    chars = _unicode.toCharTable str
+    charCnt, last, replacements, r = #chars, 0, {}, 1
+    -- since we can only ever get one match at a time out of re.match
+    -- we need to run recursively over the not-yet-matched substring
+    -- until we either hit the end of string or no more matches are found
+    while last < charCnt
+        matches = regex\match table.concat chars, "", last+1, charCnt
+        -- stop if no further matches can be found
+        break unless matches
+        matchCnt = #matches
+
+        -- discard the overall match table when there are subgroups
+        start = matchCnt == 1 and 1 or 2
+        -- pass the matches to the callback, and insert a replacement table
+        -- to the global list of replacements for every return value that is a string
+        rep = {callback unpack [matches[i].str for i = start, matchCnt]}
+
+        for i = start, matchCnt
+            continue if "string" != type rep[i+1-start]
+            -- add offset to make first/last index into the source string
+            -- rather than the current substring
+            replacements[r] = first: matches[i].first+last, last: matches[i].last+last, str: rep[i+1-start]
+            r += 1
+
+        last += matches[1].last
+
+    -- splice together the result using the replacement strings
+    -- as well as the original unicode characters for the gaps inbetween their indexes
+    fragments, f, last = {}, 0, 0
+
+    for rep in *replacements
+        fragments[f+c] = chars[c+last] for c = 1, rep.first-last-1
+        f += rep.first - last
+        fragments[f], last = rep.str, rep.last
+
+    -- don't forget the tail after the last replacement
+    fragments[f+c] = chars[c+last] for c = 1, #chars-last
+
+    return table.concat fragments
+}
+
 return version\register {
   function: _function
   :list
@@ -529,4 +597,6 @@ return version\register {
   table: _table
   :util
   :version
+  re: _re
+  unicode: _unicode
 }
