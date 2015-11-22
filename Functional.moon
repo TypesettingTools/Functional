@@ -419,16 +419,23 @@ _table = {
     return mapped, m + n
 
   pick: (tbl, selector) ->
-    local picked
+    picked, p = {}, 0
 
     switch type selector
       when "table"
         keySet = list.makeSet selector
-        picked = {k, v for k, v in pairs tbl when keySet[k]}
-      when "function"
-        picked = {k, v for k, v in pairs tbl when selector}
         for k, v in pairs tbl
-          picked[k]
+          if keySet[k]
+            picked[k] = v
+            p += 1
+
+      when "function"
+        for k, v in pairs tbl
+          if selector v, k tbl
+            picked[k] = v
+            p += 1
+
+    return picked, p
 
   -- fast in-place intersect
   purgeDiff: (target, ...) ->
@@ -486,7 +493,11 @@ _table = {
 
     for i = 1, tbls.n
       for k, v in pairs tbls[i]
-        union[k] = v if union[k] == nil
+        if union[k] == nil
+          union[k] = v
+          u += 1
+
+    return union, u
 
   uniq: (tbl, selector = _function.identity) -> -- TODO: optimization for sorted lists
     values, unique, u = {}, {}, 0
