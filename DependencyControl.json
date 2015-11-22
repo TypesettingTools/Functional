@@ -1,0 +1,59 @@
+{
+  "dependencyControlFeedFormatVersion": "0.2.0",
+  "name": "Functional",
+  "description": "The official Functional repository.",
+  "baseUrl": "https://github.com/TypesettingTools/Functional",
+  "url": "@{baseUrl}",
+  "fileBaseUrl": "https://raw.githubusercontent.com/TypesettingTools/Functional/",
+  "maintainer": "line0",
+  "knownFeeds": {
+    "DependencyControl": "https://raw.githubusercontent.com/TypesettingTools/DependencyControl/master/DependencyControl.json",
+    "line0scripts": "https://raw.githubusercontent.com/TypesettingTools/line0-Aegisub-Scripts/master/DependencyControl.json",
+    "a-mo": "https://raw.githubusercontent.com/TypesettingCartel/Aegisub-Motion/DepCtrl/DependencyControl.json",
+    "SubInspector": "https://raw.githubusercontent.com/TypesettingTools/SubInspector/master/DependencyControl.json",
+    "ASSFoundation": "https://raw.githubusercontent.com/TypesettingTools/ASSFoundation/master/DependencyControl.json",
+    "ffi-experiments": "https://raw.githubusercontent.com/torque/ffi-experiments/master/DependencyControl.json",
+    "lyger-scripts": "https://raw.githubusercontent.com/TypesettingTools/lyger-Aegisub-Scripts/master/DependencyControl.json",
+    "unanimated-scripts": "https://raw.githubusercontent.com/TypesettingTools/unanimated-Aegisub-Scripts/master/DependencyControl.json",
+    "coffeeflux-scripts": "https://raw.githubusercontent.com/TypesettingTools/CoffeeFlux-Aegisub-Scripts/master/DependencyControl.json"
+  },
+  "modules": {
+    "l0.DependencyControl": {
+      "url": "@{baseUrl}#@{namespace}",
+      "author": "line0",
+      "name": "(Almost) Functional Suite",
+      "description": "Collection of commonly used functions",
+      "fileBaseUrl": "@{fileBaseUrl}v@{version}-@{channel}/",
+      "channels": {
+        "alpha": {
+          "version": "0.1.0",
+          "released": "2015-11-22",
+          "default": true,
+          "files": [
+            {
+              "name": ".moon",
+              "url": "@{fileBaseUrl}Functional.moon",
+              "sha1": "55C4D9EABE4E755075A4A332DAE9612B2399E390"
+            }
+          ],
+          "requiredModules": [
+            {
+              "moduleName": "aegisub.util"
+            },
+            {
+              "moduleName": "aegisub.unicode"
+            },
+            {
+              "moduleName": "aegisub.re"
+            }
+          ]
+        }
+      },
+      "changelog": {
+        "0.1.0": [
+          "Initial release."
+        ]
+      }
+    }
+  }
+}

@@ -1,7 +1,7 @@
 DependencyControl = require "l0.DependencyControl"
 version = DependencyControl{
     name: "(Almost) Functional Suite",
-    version: "0.0.1",
+    version: "0.1.0",
     description: "Collection of commonly used functions",
     author: "line0",
     moduleName: "l0.Functional",
