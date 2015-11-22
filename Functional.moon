@@ -418,6 +418,14 @@ _table = {
 
     return mapped, m + n
 
+  merge: (target, source, overwrite = true) ->
+    mergeCnt = 0
+    for k, v in pairs source
+      if overwrite or not target[k]
+        target[k] = v
+        mergeCnt += 1
+    return mergeCnt
+
   pick: (tbl, selector) ->
     picked, p = {}, 0
 
