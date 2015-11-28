@@ -285,6 +285,12 @@ _string = {
         when "B" then args[i] and 1 or 0 -- trueish/falsish as 1 and 0
         else (opts..type_)\format args[i]
 
+  pad: (str, charCnt, padStr = "0", right = false) ->
+    repCnt = charCnt - #str
+    return str if repCnt < 1
+    padding = padStr\rep(math.ceil repCnt / #padStr)\sub 1, repCnt
+    return right and str .. padding or padding .. str
+
   toNumbers: (base, ...) ->
     numbers, n = {}, 1
     if type(base) != "number"
@@ -537,6 +543,20 @@ _function = {
 _util = {
   equals: DependencyControl.UnitTestSuite.UnitTest.equals
   itemsEqual: DependencyControl.UnitTestSuite.UnitTest.itemsEqual
+
+  formatTimecode: (time, format) ->
+    splitTime = (time, div) ->
+      split = time % div
+      return split, (time - split) / div
+
+    splits = {}
+    splits.f, time = splitTime time, 1000
+    splits.s, time = splitTime time, 60
+    splits.m, time = splitTime time, 60
+    splits.h, time = splitTime time, 24
+
+    return _re.replace format, "(h+|m+|s+|f+)", (flag) ->
+      _string.pad tostring(splits[flag\sub 1, 1]), #flag
 }
 
 _unicode = {
