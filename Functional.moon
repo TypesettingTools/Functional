@@ -180,15 +180,20 @@ list = setmetatable {
       i += 1
     return removed, shift
 
-  removeWhere: (tbl, predicate = _function.true) ->
+  removeWhere: (tbl, predicate = _function.true, sparse = false) ->
     removeAll = predicate == _function.true
     removed, r = {}, 0
     for i, v in ipairs tbl
       if removeAll or predicate v, i, tbl
         r += 1
-        removed[r], tbl[i] = v
+        if sparse
+          removed[r], tbl[i] = v
+        else removed[r] = i
 
-    return removed, r
+    if sparse
+      return removed, r
+    else
+      return list.removeIndexes(tbl, removed), r
 
   slice: (tbl, first = 1, last = -1) ->
     len = #tbl
