@@ -26,14 +26,20 @@
       "fileBaseUrl": "@{fileBaseUrl}v@{version}-@{channel}/",
       "channels": {
         "alpha": {
-          "version": "0.1.0",
-          "released": "2015-11-22",
+          "version": "0.2.0",
+          "released": "2015-01-02",
           "default": true,
           "files": [
             {
               "name": ".moon",
               "url": "@{fileBaseUrl}Functional.moon",
-              "sha1": "55C4D9EABE4E755075A4A332DAE9612B2399E390"
+              "sha1": "BFA3413FE26ACAA711106B21BB476C8C6BBDF112"
+            },
+            {
+              "name": ".moon",
+              "type": "test",
+              "url": "@{fileBaseUrl}Tests.moon",
+              "sha1": "690E43411F74B9822E06021735FDAF787D58A3D7"
             }
           ],
           "requiredModules": [
@@ -50,6 +56,11 @@
         }
       },
       "changelog": {
+        "0.2.0": [
+          "added string.pad: pads a string with repetitions of another string up to a defined character limit. Pads with zeros by default.",
+          "added util.formatTimecode: formats a time in milliseconds according to a .NET-like format string, e.g. 'h:mm:ss.ff'for ASS time codes.",
+          "list.removeWhere now defaults to shifting up fields to keep the list continuous. A parameter was added to switch to sparse mode."
+        ],
         "0.1.0": [
           "Initial release."
         ]
