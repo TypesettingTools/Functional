@@ -1,5 +1,5 @@
 {
-  "dependencyControlFeedFormatVersion": "0.2.0",
+  "dependencyControlFeedFormatVersion": "0.3.0",
   "name": "Functional",
   "description": "The official Functional repository.",
   "baseUrl": "https://github.com/TypesettingTools/Functional",
@@ -26,14 +26,14 @@
       "fileBaseUrl": "@{fileBaseUrl}v@{version}-@{channel}/",
       "channels": {
         "alpha": {
-          "version": "0.2.0",
-          "released": "2015-01-02",
+          "version": "0.3.0",
+          "released": "2015-01-24",
           "default": true,
           "files": [
             {
               "name": ".moon",
               "url": "@{fileBaseUrl}Functional.moon",
-              "sha1": "BFA3413FE26ACAA711106B21BB476C8C6BBDF112"
+              "sha1": "E3AD5920156642090CA4E0AD589172912A4C5AE3"
             },
             {
               "name": ".moon",
@@ -56,6 +56,12 @@
         }
       },
       "changelog": {
+        "0.3.0": [
+          "added 2D vector math: math.vector2.distance returns the distance between 2 points (or the length of a 2D vector), math.vector2.normalize normalizes a vector to a specified length (1 by default).",
+          "added math.degrees (converts radians to degrees), math.sign (returns the sign of a number as 1, 0, or -1) and math.nan as an NaN constant.",
+          "added list.groupBy: creates a table composed of keys generated from the results of applying the specified selector (a callback or property name) to each list element, with the value being a list of all elements generating the same key."
+          "table.values now allows for specifying an optional sorting function to run on the generated list."
+        ],
         "0.2.0": [
           "added string.pad: pads a string with repetitions of another string up to a defined character limit. Pads with zeros by default.",
           "added util.formatTimecode: formats a time in milliseconds according to a .NET-like format string, e.g. 'h:mm:ss.ff'for ASS time codes.",
