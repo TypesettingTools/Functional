@@ -318,6 +318,17 @@ _math = {
 
   toStrings: (...) -> unpack [tostring n for n in *table.pack ...]
 
+  vector2: {
+    distance: (x1, y1, x2, y2) ->
+      return math.sqrt (x2-x1)^2 + (y2-y1)^2
+
+    normalize: (x, y, length = 1) ->
+      return _math.nan, _math.nan if x == 0 and y == 0
+
+      fac = length / _math.vector2.distance 0, 0, x, y
+      return x*fac, y*fac
+  }
+
 }
 _string = {
   escLuaExp: (str) -> str\gsub "([%%%(%)%[%]%.%*%-%+%?%$%^])", "%%%1"
