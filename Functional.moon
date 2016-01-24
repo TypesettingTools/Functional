@@ -32,6 +32,10 @@ getArgType = (arg) ->
     return v if arg == v
 
   return "function"
+
+
+-- list functions are designed to work on numerically keyed tables
+-- calling list will create a new table that provides all of the list functions as methods
 listMeta = {
   __index: (tbl, key) -> list[key] or nil
 }
