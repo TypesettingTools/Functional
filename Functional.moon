@@ -598,11 +598,16 @@ _table = {
 
     return unique, u
 
-  values: (tbl) ->
+  values: (tbl, sortComp) ->
     values, i = {}, 0
     for _, v in pairs tbl
       i += 1
       values[i] = v
+
+    if sortComp == true
+      table.sort values
+    elseif sortComp
+      table.sort values, sortComp
 
     return values, i
 }
