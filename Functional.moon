@@ -276,6 +276,9 @@ list = setmetatable {
 }, { __call: (_, tbl = {}) -> setmetatable tbl, listMeta }
 
 _math = {
+  degrees: (rad) ->
+    return rad * 180/math.pi
+
   isInt: (num) ->
     type_ = type num
     return type_ == "number" and num == math.floor(num), type_
@@ -291,9 +294,23 @@ _math = {
     assertEx inRange(num, min, max, checkInt), "%s must be %sin range %d-%d, got %s.", assertName,
              checkInt and "an integer " or "", min, max, tostring(num)
 
+  nan: 0/0
+
+  randomFloat: (min = 0, max = 1) ->
+    return min + math.random! * (max - min)
+
   round: (num, idp = 0) ->
     fac = 10^idp
     return math.floor(num * fac + 0.5) / fac
+
+  sign: (num, signedZero) ->
+    return _math.nan if num != num
+    return 1 if num > 0
+    return -1 if num < 0
+
+    if signedZero
+      return #tostring(num/math.abs num) > 1 and -1 or 1
+    return 0
 
   sum: (num, ...) ->
     num += n for n in *{...}
