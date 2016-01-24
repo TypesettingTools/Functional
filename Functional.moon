@@ -77,6 +77,24 @@ list = setmetatable {
     for i, v in ipairs tbl
       return v if predicate v, i, tbl
 
+  groupBy: (tbl, selector = _function.identity) ->
+    groups = {}
+    selType = getArgType selector
+
+    for i, v in ipairs tbl
+      groupKey = switch selType
+        when _function.identity then v
+        when "function" then selector v, i, tbl
+      else v[selector]
+
+      group = groups[groupKey]
+      if group
+        group.n += 1
+        group[group.n] = v
+      else groups[groupKey] = {v, n: 1}
+
+    return groups
+
   indexBy: (tbl, key, onlyTables = true) ->
     {v[key], v for v in *tbl when not onlyTables or type(v) == "table" and v[key] != nil}
 
