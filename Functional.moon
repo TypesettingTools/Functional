@@ -14,6 +14,24 @@ logger = version\getLogger!
 
 local list, _table, _math, _string, _function, _unicode, _re
 
+
+-- define some generic functions to be used as default parameters for callbacks
+_function = {
+  identity: (...) -> ...
+  identical: (a, b) -> a == b
+  true: -> true
+}
+-- provide a convenient way to check if these generic functions were passed as an argument
+-- so special optimized code paths can be easily provided
+getArgType = (arg) ->
+  valType = type arg
+  if valType != "function"
+    return valType
+
+  for k, v in pairs _function
+    return v if arg == v
+
+  return "function"
 listMeta = {
   __index: (tbl, key) -> list[key] or nil
 }
@@ -537,12 +555,6 @@ _table = {
       values[i] = v
 
     return values, i
-}
-
-_function = {
-  identity: (...) -> ...
-  identical: (a, b) -> a == b
-  true: -> true
 }
 
 _util = {
