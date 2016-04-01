@@ -715,7 +715,10 @@ _re = {
         unpack [matches[i].str for i = start, matchCnt]
 
   replace: (str, pattern, callback, ...) ->
-    regex = re.compile pattern, ...
+    regex = if type(pattern) == "table" and type(pattern._regex) == "cdata"
+      pattern
+    else re.compile pattern, ...
+
     chars = _unicode.toCharTable str
     charCnt, last, replacements, r = #chars, 0, {}, 1
     -- since we can only ever get one match at a time out of re.match
