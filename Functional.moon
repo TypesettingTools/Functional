@@ -596,16 +596,19 @@ _table = {
   removeAll: (tbl) ->
     return _table.removeWhere tbl, _function.true
 
-  removeKeys: (tbl, keys) ->
+  removeKeys: (tbl, keys, exceptMode) ->
     keySet = list.makeSet keys
     removed, r = {}, 0
 
     for k, v in pairs tbl
-      if keySet[k]
+      if not exceptMode and keySet[k] or exceptMode and not keySet[k]
         r += 1
-        tbl[k], removed = tbl[k]
+        removed, tbl[k] = tbl[k]
 
     return removed, r
+
+  removeKeysExcept: (tbl, keys) ->
+    return _table.removeKeys tbl, keys, true
 
   removeWhere: (tbl, predicate) ->
     removeAll = predicate == _function.true
