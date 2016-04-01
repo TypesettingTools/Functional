@@ -689,6 +689,15 @@ _unicode = {
         charStart, charNum = charEnd+1, charNum+1
 
     return uniChars
+
+  sub: (s, i = 1, j) ->
+    uniChars = unicode.toCharTable s
+    charCnt = #uniChars
+    j or= charCnt
+
+    i = i < 0 and math.max(charCnt+i+1,1) or util.clamp i, 1, charCnt
+    j = j < 0 and math.max(charCnt+j+1,1) or util.clamp j, 1, charCnt
+    return table.concat uniChars, "", i, j
 }
 
 _re = {
