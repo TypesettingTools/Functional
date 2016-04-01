@@ -394,6 +394,35 @@ _table = {
 
     return addedCnt
 
+
+  compare: (a, b, target, iteratee) ->
+    if not iteratee and "function" == type target
+      target, iteratee = a, target
+
+    seenKeys, s = {}, 0
+    for k, v in pairs b
+      target[k] = iteratee a[k], v, k, a, b
+      seenKeys[k] = true
+      s += 1
+
+    for k, v in pairs a
+      unless seenKeys[k]
+        target[k] = iteratee v, b[k], k, a, b
+        s += 1
+
+    return target, s
+
+  compareLeft: (a, b, target, iteratee) ->
+    if not iteratee and "function" == type target
+      target, iteratee = a, target
+
+    s = 0
+    for k, v in pairs a
+      target[k] = iteratee v, b[k], k, a, b
+      s += 1
+
+    return target, s
+
   -- selects key/value pairs from left which are different from the values found at the same key in right
   diff: (left, right, sparse = false, comparator = _function.identical) ->
     diff, d = {}, 0
