@@ -300,6 +300,7 @@ _math = {
     return min + math.random! * (max - min)
 
   round: (num, idp = 0) ->
+    return num if idp == math.huge
     fac = 10^idp
     return math.floor(num * fac + 0.5) / fac
 
