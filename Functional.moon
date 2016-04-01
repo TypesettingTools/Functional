@@ -215,16 +215,15 @@ list = setmetatable {
 
     return removed, rmCnt
 
-  removeIndexes: (tbl, ...) ->
-    indexes, removed, shift = {...}, {}, 0
-    indexes = indexes[1] if #indexes == 1 and "table" == type indexes[1]
-    indexCnt = #indexes
+  removeIndices: (tbl, indices = {}) ->
+    removed, shift = {}, 0
+    indexCnt = #indices
 
     switch indexCnt
       when 0 then return removed, 0
-      when 1 then return {table.remove tbl, indexes[1]}, 1
+      when 1 then return {table.remove tbl, indices[1]}, 1
       else
-        i, tblLen, indexSet = 1, #tbl, list.makeSet indexes
+        i, tblLen, indexSet = 1, #tbl, list.makeSet indices
         while i <= tblLen + shift
           if i <= tblLen and indexSet[i]
             shift += 1
