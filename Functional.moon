@@ -517,6 +517,15 @@ _table = {
     n += 1 for _, _ in pairs tbl
     return n
 
+  continuous: (tbl) ->
+    continuous, c = {}, 1
+    for k, v in pairs tbl
+        if "number" == type k
+          continuous[c], c = v, c + 1
+        else continuous[k] = v
+
+    return continuous
+
   map: (tbl, selector = _function.identity, compact = true, remapNumKeys = false) ->
     mapped, m, n = {}, 0, 0
     for k, v in pairs tbl
