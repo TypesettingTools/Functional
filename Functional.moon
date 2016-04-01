@@ -60,6 +60,34 @@ list = setmetatable {
       [v for _, v in pairs tbl when v]
     else [v for _, v in pairs tbl when v != nil]
 
+  compare: (a, b, target, iteratee) ->
+    if not iteratee and "function" == type target
+      target, iteratee = a, target
+
+    seenIndices, s = {}, 0
+    for i, v in ipairs b
+      target[i] = iteratee a[i], v, i, a, b
+      seenKeys[i] = true
+      s += 1
+
+    for i, v in ipairs a
+      unless seenIndices[i]
+        target[i] = iteratee v, b[i], i, a, b
+        s += 1
+
+    return target, s
+
+  compareLeft: (a, b, target, iteratee) ->
+    if not iteratee and "function" == type target
+      target, iteratee = a, target
+
+    s = 0
+    for i, v in ipairs a
+      target[i] = iteratee v, b[i], i, a, b
+      s += 1
+
+    return target, s
+
   diff: (left, ...) ->
     rightSet = {}
     list.makeSet right, rightSet for right in *{...}
