@@ -304,6 +304,10 @@ _math = {
     fac = 10^idp
     return math.floor(num * fac + 0.5) / fac
 
+  roundMany: (idp = 0, ...) ->
+    return unpack for i = 1, select '#', ...
+      math.floor(select(i, ...) * fac + 0.5) / fac
+
   sign: (num, signedZero) ->
     return _math.nan if num != num
     return 1 if num > 0
