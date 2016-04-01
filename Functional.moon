@@ -567,6 +567,9 @@ _table = {
 
     return picked, p
 
+  pluck: (tbl, key, onlyTables = true) ->
+    [v[key] for _,v in pairs tbl when not onlyTables or "table" == type v]
+
   -- fast in-place intersect
   purgeDiff: (target, ...) ->
     tbls = table.pack ...
