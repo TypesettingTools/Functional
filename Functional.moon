@@ -726,6 +726,12 @@ _util = {
         s = delta/v
         h = 60*(r == v and (g-b)/delta or g == v and (b-r)/delta + 2 or (r-g)/delta + 4)
         return h > 0 and h or h+360, s, v/255
+
+  uuid: ->
+    -- https://gist.github.com/jrus/3197011
+    "xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx"\gsub "[xy]", (c) ->
+      v = c == "x" and math.random(0, 0xf) or math.random 8, 0xb
+      return "%x"\format v
 }
 
 _unicode = {
