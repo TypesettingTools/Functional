@@ -583,7 +583,7 @@ _table = {
       if overwrite or target[k] == nil
         target[k] = v
         mergeCnt += 1
-    return mergeCnt
+    return target, mergeCnt
 
   pick: (tbl, selector) ->
     picked, p = {}, 0
