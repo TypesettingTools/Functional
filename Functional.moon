@@ -580,7 +580,7 @@ _table = {
   merge: (target, source, overwrite = true) ->
     mergeCnt = 0
     for k, v in pairs source
-      if overwrite or not target[k]
+      if overwrite or target[k] == nil
         target[k] = v
         mergeCnt += 1
     return mergeCnt
