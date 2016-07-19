@@ -715,6 +715,17 @@ _util = {
 
     return _re.replace format, "(h+|m+|s+|f+)", (flag) ->
       _string.pad tostring(splits[flag\sub 1, 1]), #flag
+
+  RGB_to_HSV: (r, g, b) ->
+    r, g, b = util.clamp(r, 0, 255), util.clamp(g, 0, 255), util.clamp(b, 0, 255)
+    v = math.max r, g, b
+    delta = v - math.min r, g, b
+    if delta == 0
+        return 0, 0, v/255
+    else
+        s = delta/v
+        h = 60*(r == v and (g-b)/delta or g == v and (b-r)/delta + 2 or (r-g)/delta + 4)
+        return h > 0 and h or h+360, s, v/255
 }
 
 _unicode = {
