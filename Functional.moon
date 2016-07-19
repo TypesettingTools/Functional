@@ -67,7 +67,7 @@ list = setmetatable {
     seenIndices, s = {}, 0
     for i, v in ipairs b
       target[i] = iteratee a[i], v, i, a, b
-      seenKeys[i] = true
+      seenIndices[i] = true
       s += 1
 
     for i, v in ipairs a
@@ -312,14 +312,14 @@ _math = {
 
   assertInt: (num, varName = "Number") ->
       isInt, type_ = _math.isInt num
-      assertEx isInt, "%s must be an integer, got a %s.", varName, type_
+      logger\assert isInt, "%s must be an integer, got a %s.", varName, type_
 
   inRange: (num, min, max, checkInt) ->
     type(num) == "number" and num >= min and num <= max and (not checkInt or math.floor(num) == num)
 
   assertInRange: (num, min, max, checkInt, varName = "Number") ->
-    assertEx inRange(num, min, max, checkInt), "%s must be %sin range %d-%d, got %s.", assertName,
-             checkInt and "an integer " or "", min, max, tostring(num)
+    logger\assert _math.inRange(num, min, max, checkInt), "%s must be %sin range %d-%d, got %s.", varName,
+                   checkInt and "an integer " or "", min, max, tostring(num)
 
   nan: 0/0
 
@@ -332,6 +332,7 @@ _math = {
     return math.floor(num * fac + 0.5) / fac
 
   roundMany: (idp = 0, ...) ->
+    fac = 10^idp
     return unpack for i = 1, select '#', ...
       math.floor(select(i, ...) * fac + 0.5) / fac
 
@@ -368,7 +369,7 @@ _string = {
   escRegExp: (str) -> str\gsub "([\\/%^%$%.|%?%*%+%(%)%[%]%{%}])", "\\%1"
 
   split: (str, sep = " ", init = 1, plain = true) ->
-    first, last = str\find pattern, init, plain
+    first, last = str\find sep, init, plain
     -- fast return if there's nothing to split - saves one str.sub()
     return {str} unless first
 
@@ -377,7 +378,7 @@ _string = {
       splits[s] = str\sub init, first - 1
       s += 1
       init = last + 1
-      first, last = str\find pattern, init, plain
+      first, last = str\find sep, init, plain
 
     splits[s] = str\sub init
     return splits, s
@@ -386,9 +387,10 @@ _string = {
     args, a = table.pack(...), 1
     return fmtStr\gsub "(%%[%+%- 0]*%d*.?%d*[hlLzjtI]*)([aABcedEfFgGcnNopiuAsuxX])", (opts, type_) ->
       switch type_
-        when "N" then tonumber "#{opts}f"\format args[i] -- nicely formatted float (no trailing zeroes)
-        when "B" then args[i] and 1 or 0 -- trueish/falsish as 1 and 0
-        else (opts..type_)\format args[i]
+        when "N" then tonumber "#{opts}f"\format args[a] -- nicely formatted float (no trailing zeroes)
+        when "B" then args[a] and 1 or 0 -- trueish/falsish as 1 and 0
+        else (opts..type_)\format args[a]
+      a += 1
 
   pad: (str, charCnt, padStr = "0", right = false) ->
     repCnt = charCnt - #str
@@ -465,7 +467,7 @@ _table = {
     return diff, d
 
   equals: (a, b) ->
-    return utils.equals a, b, "table", "table"
+    return _util.equals a, b, "table", "table"
 
   filter: (tbl, predicate) ->
     filtered, f = {}, 0
@@ -527,7 +529,7 @@ _table = {
   keys: (tbl, except) ->
     keys, k = {}, 0
 
-    exceptSet = switch type exclude
+    exceptSet = switch type except
       when "table" then list.makeSet except
       when nil then nil
       else {[except]: true}
