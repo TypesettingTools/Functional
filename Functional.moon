@@ -12,8 +12,7 @@ version = DependencyControl{
 util, unicode, re = version\requireModules!
 logger = version\getLogger!
 
-local list, _table, _math, _string, _function, _unicode, _re
-
+local list, _table, _math, _string, _function, _unicode, _util, _re, rngSeed
 
 -- define some generic functions to be used as default parameters for callbacks
 _function = {
@@ -335,6 +334,15 @@ _math = {
     fac = 10^idp
     return unpack for i = 1, select '#', ...
       math.floor(select(i, ...) * fac + 0.5) / fac
+
+  seedRNG: (seed = false) ->
+    if "boolean" == type seed
+      return rngSeed if seed == false and rngSeed
+      rngSeed = os.time!
+    else rngSeed = seed
+
+    math.randomseed rngSeed
+    return rngSeed
 
   sign: (num, signedZero) ->
     return _math.nan if num != num
