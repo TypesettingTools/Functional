@@ -26,14 +26,14 @@
       "fileBaseUrl": "@{fileBaseUrl}v@{version}-@{channel}/",
       "channels": {
         "alpha": {
-          "version": "0.3.0",
-          "released": "2015-01-24",
+          "version": "0.4.0",
+          "released": "2017-07-14",
           "default": true,
           "files": [
             {
               "name": ".moon",
               "url": "@{fileBaseUrl}Functional.moon",
-              "sha1": "E3AD5920156642090CA4E0AD589172912A4C5AE3"
+              "sha1": "EAEF82C94185D4DDD018C2673485486923F10D6A"
             },
             {
               "name": ".moon",
@@ -56,6 +56,23 @@
         }
       },
       "changelog": {
+        "0.4.0": [
+          "added util.uuid: creates an uuidv4.",
+          "added util.RGB_to_HSV: converts an rgb color into hsv representation.",
+          "table.merge now returns the target table as the first value and now longer overwrites false values.",
+          "added math.seedRNG: seeds the RNG either automatically and exactly once (no matter how often the method is called) using the system time or, alternatively, using a custom seed.",
+          "fixed a few linter suggestions",
+          "changed the signature of list.removeIndexes to list.removeIndices and made it take a table of indices instead of the previous varargs.",
+          "added list.compare and list.compareLeft: compares two lists using a user-supplied iteratee function, with compare reading until then end of the longer list and compareLeft only reading to then end of the first list.",
+          "added table.compare and table.compareLeft: a more generic (and slower) version of the list equivalent, which supports arbitrary table keys.",
+          "added re.replace to also take precompiled patterns as an input",
+          "added unicode.sub: gets a substring of a unicode string, where the start and end indices refer to unicode characters/code points instead of bytes.",
+          "added table.removeKeysExcept: a special case of table.removeKeys which removes anything *but* the specified table keys.",
+          "added table.pluck: takes any table values in a table, then for every of those tables extracts the value at the specified key, and finally returns a list of all extracted values.",
+          "added table.continuous: takes the values at any numerical key in the specified table and compiles them all in a continuous list (in numerical order).",
+          "added math.roundMany: works just like math.round but takes additional numbers to round as varargs and returns as many values.",
+          "changed math.round to return the supplied number as-is when rounding to infinite digits."
+        ],
         "0.3.0": [
           "added 2D vector math: math.vector2.distance returns the distance between 2 points (or the length of a 2D vector), math.vector2.normalize normalizes a vector to a specified length (1 by default).",
           "added math.degrees (converts radians to degrees), math.sign (returns the sign of a number as 1, 0, or -1) and math.nan as an NaN constant.",
