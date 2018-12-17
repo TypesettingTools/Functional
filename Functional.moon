@@ -469,7 +469,7 @@ _table = {
     identicalComp = comparator == _function.identical
 
     for k, vLeft in pairs left
-      vRight = left[k]
+      vRight = right[k]
       continue if sparse and vRight == nil
       if identicalComp and vRight != vLeft or not identicalComp and not comparator vLeft, vRight, k
         diff[k] = vLeft
