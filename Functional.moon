@@ -394,11 +394,14 @@ _string = {
   formatEx: (fmtStr, ...) ->
     args, a = table.pack(...), 1
     return fmtStr\gsub "(%%[%+%- 0]*%d*.?%d*[hlLzjtI]*)([aABcedEfFgGcnNopiuAsuxX])", (opts, type_) ->
-      switch type_
-        when "N" then tonumber "#{opts}f"\format args[a] -- nicely formatted float (no trailing zeroes)
-        when "B" then args[a] and 1 or 0 -- trueish/falsish as 1 and 0
+      repl = switch type_
+        when "N" -- nicely formatted float (no trailing zeroes)
+          tonumber "#{opts}f"\format args[a]
+        when "B" -- trueish/falsish as 1 and 0
+          args[a] and 1 or 0
         else (opts..type_)\format args[a]
       a += 1
+      return repl
 
   pad: (str, charCnt, padStr = "0", right = false) ->
     repCnt = charCnt - #str
