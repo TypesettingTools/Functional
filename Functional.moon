@@ -261,6 +261,13 @@ list = setmetatable {
     else
       return list.removeIndexes(tbl, removed), r
 
+  reverse: (tbl) ->
+    reversed, r = {}, #tbl
+    for v in *tbl
+      reversed[r] = v
+      r -= 1
+    return reversed
+
   slice: (tbl, first = 1, last = -1) ->
     len = #tbl
     first += len+1 if first < 0
@@ -746,6 +753,8 @@ _unicode = {
         charStart, charNum = charEnd+1, charNum+1
 
     return uniChars
+
+  reverse: (s) -> table.concat list.reverse _unicode.toCharTable s
 
   sub: (s, i = 1, j) ->
     uniChars = _unicode.toCharTable s
