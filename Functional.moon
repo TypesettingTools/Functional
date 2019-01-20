@@ -748,7 +748,7 @@ _unicode = {
     return uniChars
 
   sub: (s, i = 1, j) ->
-    uniChars = unicode.toCharTable s
+    uniChars = _unicode.toCharTable s
     charCnt = #uniChars
     j or= charCnt
 
@@ -760,7 +760,7 @@ _unicode = {
 _re = {
   matches: (str, pattern, ...) ->
     regex = re.compile pattern, ...
-    chars = unicode.toCharTable str
+    chars = _unicode.toCharTable str
     charCnt, last = #chars, 0
     ->
         return if last >= charCnt
