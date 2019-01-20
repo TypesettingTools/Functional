@@ -542,7 +542,7 @@ _table = {
 
     exceptSet = switch type except
       when "table" then list.makeSet except
-      when nil then nil
+      when "nil" then nil
       else {[except]: true}
 
     for key, _ in pairs tbl
