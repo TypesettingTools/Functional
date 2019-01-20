@@ -40,8 +40,8 @@ listMeta = {
 }
 
 list = setmetatable {
-  makeSet: (source, target = {}, overwrite = true) ->
-    target[v] = true for v in *source when overwrite or not target[v]
+  makeSet: (source, target = {}, overwrite = true, value = true) ->
+    target[v] = value for v in *source when overwrite or not target[v]
     return target
 
   chunk: (tbl, size = 1) ->
