@@ -713,6 +713,12 @@ _util = {
   itemsEqual: DependencyControl.UnitTestSuite.UnitTest.itemsEqual
 
   formatTimecode: (time, format) ->
+    splits = _util.splitTimestamp time
+
+    return _re.replace format, "(h+|m+|s+|f+)", (flag) ->
+      _string.pad tostring(splits[flag\sub 1, 1]), #flag
+
+  splitTimestamp: (time) ->
     splitTime = (time, div) ->
       split = time % div
       return split, (time - split) / div
@@ -721,10 +727,18 @@ _util = {
     splits.f, time = splitTime time, 1000
     splits.s, time = splitTime time, 60
     splits.m, time = splitTime time, 60
-    splits.h, time = splitTime time, 24
+    splits.h = time
+    return splits
 
-    return _re.replace format, "(h+|m+|s+|f+)", (flag) ->
-      _string.pad tostring(splits[flag\sub 1, 1]), #flag
+  getScriptInfo: (sub) ->
+    infoBlockSeen, scriptInfo = false, {}
+    for line in *sub
+      if line.class == "info"
+        infoBlockSeen = true
+        scriptInfo[line.key] = line.value
+      elseif infoBlockSeen
+        break
+    return scriptInfo
 
   RGB_to_HSV: (r, g, b) ->
     r, g, b = util.clamp(r, 0, 255), util.clamp(g, 0, 255), util.clamp(b, 0, 255)
@@ -736,6 +750,19 @@ _util = {
         s = delta/v
         h = 60*(r == v and (g-b)/delta or g == v and (b-r)/delta + 2 or (r-g)/delta + 4)
         return h > 0 and h or h+360, s, v/255
+
+  assTimecode2ms: (tc) ->
+    num = tonumber
+    split, num = {tc\match "^(%d):(%d%d):(%d%d)%.(%d%d)$"}
+    if #split != 4
+      return nil, "invalid ASS timecode"
+    return ((num(split[1])*60 + num(split[2]))*60 + num(split[3]))*1000 + num(split[4])*10
+
+  ms2AssTimecode: (time) ->
+    {:h, :m, :s, :f} = _util.splitTimestamp time
+    if h > 9
+      return nil, "value too large to create an ASS timecode"
+    return string.format("%01d:%02d:%02d.%02d", h, m, s, f/10)
 
   uuid: ->
     -- https://gist.github.com/jrus/3197011
