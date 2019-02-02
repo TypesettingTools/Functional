@@ -416,6 +416,12 @@ _string = {
     padding = padStr\rep(math.ceil repCnt / #padStr)\sub 1, repCnt
     return right and str .. padding or padding .. str
 
+  trim: (str) -> str\gsub "^%s*(.-)%s*$", "%1"
+
+  trimLeft: (str) -> str\gsub "^%s*(.+)$", "%1"
+
+  trimRight: (str) -> str\gsub "^(.-)%s*$", "%1"
+
   toNumbers: (base, ...) ->
     numbers, n = {}, 1
     if type(base) != "number"
