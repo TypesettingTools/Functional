@@ -376,8 +376,11 @@ _math = {
       fac = length / _math.vector2.distance 0, 0, x, y
       return x*fac, y*fac
   }
-
 }
+
+formatError = (args, a, opts, type_, msg) ->
+  "failed to format arg #{a} (#{tostring args[a]}) to #{opts}#{type_}: #{msg}"
+
 _string = {
   escLuaExp: (str) -> str\gsub "([%%%(%)%[%]%.%*%-%+%?%$%^])", "%%%1"
 
@@ -400,15 +403,32 @@ _string = {
 
   formatEx: (fmtStr, ...) ->
     args, a = table.pack(...), 1
-    return fmtStr\gsub "(%%[%+%- 0]*%d*.?%d*[hlLzjtI]*)([aABcedEfFgGcnNopiuAsuxX])", (opts, type_) ->
+    local errors
+    str = fmtStr\gsub "(%%[%+%- 0]*%d*.?%d*[hlLzjtI]*)([aABcedEfFgGcnNopiuAsuxX])", (opts, type_) ->
       repl = switch type_
         when "N" -- nicely formatted float (no trailing zeroes)
-          tonumber "#{opts}f"\format args[a]
+          success, result = pcall string.format, "#{opts}f", args[a]
+          if success
+            tonumber result
+          else
+            errors or= {}
+            errors[#errors+1] = formatError args, a, opts, type_, result
+
         when "B" -- trueish/falsish as 1 and 0
           args[a] and 1 or 0
-        else (opts..type_)\format args[a]
+        else
+          success, result = pcall string.format, opts..type_, args[a]
+          if success
+            result
+          else
+            errors or= {}
+            errors[#errors+1] = formatError args, a, opts, type_, result
       a += 1
       return repl
+
+    if errors
+      return nil, table.concat errors, '; '
+    return str
 
   pad: (str, charCnt, padStr = "0", right = false) ->
     repCnt = charCnt - #str
