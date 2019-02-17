@@ -4,7 +4,7 @@
   "description": "The official Functional repository.",
   "baseUrl": "https://github.com/TypesettingTools/Functional",
   "url": "@{baseUrl}",
-  "fileBaseUrl": "https://raw.githubusercontent.com/TypesettingTools/Functional/",
+  "fileBaseUrl": "https://raw.githubusercontent.com/TypesettingTools/Functional",
   "maintainer": "line0",
   "knownFeeds": {
     "DependencyControl": "https://raw.githubusercontent.com/TypesettingTools/DependencyControl/master/DependencyControl.json",
@@ -23,22 +23,52 @@
       "author": "line0",
       "name": "(Almost) Functional Suite",
       "description": "Collection of commonly used functions",
-      "fileBaseUrl": "@{fileBaseUrl}v@{version}-@{channel}/",
       "channels": {
-        "alpha": {
+        "release": {
           "version": "0.5.0",
           "released": "2019-02-17",
           "default": true,
+          "fileBaseUrl": "@{fileBaseUrl}/v@{version}",
           "files": [
             {
               "name": ".moon",
-              "url": "@{fileBaseUrl}Functional.moon",
+              "url": "@{fileBaseUrl}/Functional.moon",
               "sha1": "0803D1200632C02931FF31FD60C50D0D0A36B6F5"
             },
             {
               "name": ".moon",
               "type": "test",
-              "url": "@{fileBaseUrl}Tests.moon",
+              "url": "@{fileBaseUrl}/Tests.moon",
+              "sha1": "690E43411F74B9822E06021735FDAF787D58A3D7"
+            }
+          ],
+          "requiredModules": [
+            {
+              "moduleName": "aegisub.util"
+            },
+            {
+              "moduleName": "aegisub.unicode"
+            },
+            {
+              "moduleName": "aegisub.re"
+            }
+          ]
+        },
+        "alpha": {
+          "version": "0.5.0",
+          "released": "2019-02-17",
+          "default": false,
+          "fileBaseUrl": "@{fileBaseUrl}/v@{version}-@{channel}",
+          "files": [
+            {
+              "name": ".moon",
+              "url": "@{fileBaseUrl}/Functional.moon",
+              "sha1": "0803D1200632C02931FF31FD60C50D0D0A36B6F5"
+            },
+            {
+              "name": ".moon",
+              "type": "test",
+              "url": "@{fileBaseUrl}/Tests.moon",
               "sha1": "690E43411F74B9822E06021735FDAF787D58A3D7"
             }
           ],
