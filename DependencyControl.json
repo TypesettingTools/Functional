@@ -9,10 +9,10 @@
   "knownFeeds": {
     "DependencyControl": "https://raw.githubusercontent.com/TypesettingTools/DependencyControl/master/DependencyControl.json",
     "line0scripts": "https://raw.githubusercontent.com/TypesettingTools/line0-Aegisub-Scripts/master/DependencyControl.json",
-    "a-mo": "https://raw.githubusercontent.com/TypesettingCartel/Aegisub-Motion/DepCtrl/DependencyControl.json",
+    "a-mo": "https://raw.githubusercontent.com/TypesettingTools/Aegisub-Motion/DepCtrl/DependencyControl.json",
     "SubInspector": "https://raw.githubusercontent.com/TypesettingTools/SubInspector/master/DependencyControl.json",
     "ASSFoundation": "https://raw.githubusercontent.com/TypesettingTools/ASSFoundation/master/DependencyControl.json",
-    "ffi-experiments": "https://raw.githubusercontent.com/torque/ffi-experiments/master/DependencyControl.json",
+    "ffi-experiments": "https://raw.githubusercontent.com/TypesettingTools/ffi-experiments/master/DependencyControl.json",
     "lyger-scripts": "https://raw.githubusercontent.com/TypesettingTools/lyger-Aegisub-Scripts/master/DependencyControl.json",
     "unanimated-scripts": "https://raw.githubusercontent.com/TypesettingTools/unanimated-Aegisub-Scripts/master/DependencyControl.json",
     "coffeeflux-scripts": "https://raw.githubusercontent.com/TypesettingTools/CoffeeFlux-Aegisub-Scripts/master/DependencyControl.json"
@@ -26,14 +26,14 @@
       "fileBaseUrl": "@{fileBaseUrl}v@{version}-@{channel}/",
       "channels": {
         "alpha": {
-          "version": "0.4.0",
-          "released": "2017-07-14",
+          "version": "0.5.0",
+          "released": "2019-02-17",
           "default": true,
           "files": [
             {
               "name": ".moon",
               "url": "@{fileBaseUrl}Functional.moon",
-              "sha1": "EAEF82C94185D4DDD018C2673485486923F10D6A"
+              "sha1": "0803D1200632C02931FF31FD60C50D0D0A36B6F5"
             },
             {
               "name": ".moon",
@@ -56,6 +56,18 @@
         }
       },
       "changelog": {
+        "0.5.0": [
+          "added list.reverse()",
+          "added unicode.reverse()",
+          "util: added ASS timecode conversion and getScriptInfo()",
+          "string: added trim, trimLeft and trimRight",
+          "list.makeSet(): added a parameter to override the default value of `true` for all set items",
+          "table.keys(): fixed bad nil type comparison for except parameter",
+          "table.diff(): fixed typo that caused the left table to be compared with itself",
+          "string.formatEx(): fixed replacements not being made due to missing return statement",
+          "string.formatEx: added some error handling that catches string.format exeptions an returns an helpful error message using lua multi-return conventions.",
+          "re.matches()/re.sub(): fixed bad references to unicode.toCharTable" 
+        ],
         "0.4.0": [
           "added util.uuid: creates an uuidv4.",
           "added util.RGB_to_HSV: converts an rgb color into hsv representation.",
