@@ -87,6 +87,8 @@ list = setmetatable {
 
     return target, s
 
+  copy: (tbl) -> [v for v in *tbl]
+
   diff: (left, ...) ->
     rightSet = {}
     list.makeSet right, rightSet for right in *{...}
@@ -139,7 +141,7 @@ list = setmetatable {
     others = {...}
     otherCnt = #others
     switch otherCnt
-      when 0 then return util.copy tbl
+      when 0 then return list.copy tbl
       when 1
         set = list.makeSet tbl
         return [v for v in *others[1] when set[v]]
@@ -495,6 +497,12 @@ _table = {
       s += 1
 
     return target, s
+
+  copy: (tbl) -> {k, v for k, v in pairs tbl}
+
+  copy_deep: util.deep_copy
+
+  deepCopy: util.deep_copy
 
   -- selects key/value pairs from left which are different from the values found at the same key in right
   diff: (left, right, sparse = false, comparator = _function.identical) ->
