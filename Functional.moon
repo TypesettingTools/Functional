@@ -100,11 +100,11 @@ list = setmetatable {
 
   findInRange: (tbl, first = 1, last = #tbl, predicate) ->
     for i = first, last, #tbl
-      return tbl[i] if predicate tbl[i], i, tbl
+      return tbl[i], i if predicate tbl[i], i, tbl
 
   find: (tbl, predicate) ->
     for i, v in ipairs tbl
-      return v if predicate v, i, tbl
+      return v, i if predicate v, i, tbl
 
   groupBy: (tbl, selector = _function.identity) ->
     groups = {}

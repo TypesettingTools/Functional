@@ -44,12 +44,14 @@ DependencyControl.UnitTestSuite "l0.Functional", (functional, deps) ->
         ut\assertEquals filtered, {"a", false}
 
       find: (ut, tbls) ->
-        result = functional.list.find tbls.numbersList, (v) -> v > 12
+        result, index = functional.list.find tbls.numbersList, (v) -> v > 12
         ut\assertEquals result, 13
+        ut\assertEquals index, 4
 
       findInRange: (ut, tbls) ->
-        result = functional.list.findInRange tbls.numbersList, 5, nil, (v) -> v > 12
+        result, index = functional.list.findInRange tbls.numbersList, 5, nil, (v) -> v > 12
         ut\assertEquals result, 14
+        ut\assertEquals index, 5
 
       indexBy: (ut, tbls) ->
         result = functional.list.indexBy tbls.tableList, "a"
