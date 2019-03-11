@@ -787,7 +787,7 @@ _util = {
 
   assTimecode2ms: (tc) ->
     num = tonumber
-    split, num = {tc\match "^(%d):(%d%d):(%d%d)%.(%d%d)$"}
+    split = {tc\match "^(%d):(%d%d):(%d%d)%.(%d%d)$"}
     if #split != 4
       return nil, "invalid ASS timecode"
     return ((num(split[1])*60 + num(split[2]))*60 + num(split[3]))*1000 + num(split[4])*10
