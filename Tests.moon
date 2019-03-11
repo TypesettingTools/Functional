@@ -177,4 +177,36 @@ DependencyControl.UnitTestSuite "l0.Functional", (functional, deps) ->
                "removeValues", "slice", "trimEnd", "trimBoth", "map", "mapCompact", "reduce", "pluck",
                "uniq", "uniqCallback", "listMetaType", "removeWhere"}
     }
+    StringFunctions: {
+      _description: "Test all functions for strings (string.*)"
+      _setup: (ut) ->
+        testData = {
+          string: "This is a test."
+          uniString: "仕方が無い"
+          splitString: "a,b,,cde,%w+f,"
+        }
+
+        return testData
+
+      split: (ut, strs) ->
+        a, an = functional.string.split strs.splitString, ","
+        b, bn = functional.string.split strs.splitString, ",,"
+        c, cn = functional.string.split strs.splitString, ",", 5
+        d, dn = functional.string.split strs.splitString, "%w+", 1, true
+        e, en = functional.string.split strs.splitString, "%w+", 1, false
+        f, fn = functional.string.split strs.splitString, ",", 1, true, 2
+        g, gn = functional.string.split strs.splitString, ",", 1, true, 20
+        h, hn = functional.string.split strs.splitString, "!"
+        ut\assertEquals a, {"a", "b", "", "cde", "%w+f", ""}
+        ut\assertEquals b, {"a,b", "cde,%w+f,"}
+        ut\assertEquals c, {"", "cde", "%w+f", ""}
+        ut\assertEquals d, {"a,b,,cde,", "f,"}
+        ut\assertEquals e, {"", ",", ",,", ",%", "+", ","}
+        ut\assertEquals f, {"a", "b", ",cde,%w+f,"}
+        ut\assertEquals g, {"a", "b", "", "cde", "%w+f", ""}
+        ut\assertEquals h, {strs.splitString}
+        ut\assertEquals {an, bn, cn, dn, en, fn, gn, hn}, {6, 2, 4, 2, 6, 3, 6, 1}
+
+      _order: {"split"}
+    }
   }
