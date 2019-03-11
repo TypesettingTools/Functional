@@ -388,13 +388,13 @@ _string = {
 
   escRegExp: (str) -> str\gsub "([\\/%^%$%.|%?%*%+%(%)%[%]%{%}])", "\\%1"
 
-  split: (str, sep = " ", init = 1, plain = true) ->
+  split: (str, sep = " ", init = 1, plain = true, limit = -1) ->
     first, last = str\find sep, init, plain
     -- fast return if there's nothing to split - saves one str.sub()
-    return {str} unless first
+    return {str}, 1 if not first or limit == 0
 
     splits, s = {}, 1
-    while first
+    while first and s != limit + 1
       splits[s] = str\sub init, first - 1
       s += 1
       init = last + 1
