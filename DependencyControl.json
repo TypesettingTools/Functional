@@ -25,21 +25,21 @@
       "description": "Collection of commonly used functions",
       "channels": {
         "release": {
-          "version": "0.5.0",
-          "released": "2019-02-17",
+          "version": "0.6.0",
+          "released": "2019-03-12",
           "default": true,
           "fileBaseUrl": "@{fileBaseUrl}/v@{version}",
           "files": [
             {
               "name": ".moon",
               "url": "@{fileBaseUrl}/Functional.moon",
-              "sha1": "6518DE7918DDABCA94C4A4454C4BB779F9ED4A65"
+              "sha1": "BBD3B1ECED42201968ABFB756D683BE2A61DA815"
             },
             {
               "name": ".moon",
               "type": "test",
               "url": "@{fileBaseUrl}/Tests.moon",
-              "sha1": "690E43411F74B9822E06021735FDAF787D58A3D7"
+              "sha1": "1E7E6BED92803B2B7B567B6183644454AB141FFE"
             }
           ],
           "requiredModules": [
@@ -55,21 +55,21 @@
           ]
         },
         "alpha": {
-          "version": "0.5.0",
-          "released": "2019-02-17",
+          "version": "0.6.0",
+          "released": "2019-03-12",
           "default": false,
           "fileBaseUrl": "@{fileBaseUrl}/v@{version}-@{channel}",
           "files": [
             {
               "name": ".moon",
               "url": "@{fileBaseUrl}/Functional.moon",
-              "sha1": "0803D1200632C02931FF31FD60C50D0D0A36B6F5"
+              "sha1": "BBD3B1ECED42201968ABFB756D683BE2A61DA815"
             },
             {
               "name": ".moon",
               "type": "test",
               "url": "@{fileBaseUrl}/Tests.moon",
-              "sha1": "690E43411F74B9822E06021735FDAF787D58A3D7"
+              "sha1": "1E7E6BED92803B2B7B567B6183644454AB141FFE"
             }
           ],
           "requiredModules": [
@@ -86,6 +86,11 @@
         }
       },
       "changelog": {
+        "0.6.0": [
+          "list.find() and list.findInRange() now return the index of the found item in the list as a second return value (thanks @Myaamori)",
+          "util.assTimecode2ms(): fixed null-ref exception due to local tonumber reference being reassigned to nil (thanks @Myaamori)",
+          "string.split(): added a `limit` parameter to specify the maximum number of split operations (thanks @Myaamori)"
+        ],
         "0.5.0": [
           "added list.reverse()",
           "added unicode.reverse()",
